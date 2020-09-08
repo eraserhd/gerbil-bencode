@@ -37,4 +37,6 @@
       (check (encode (hash)) => "de")
       (check (encode (hash ("ham" "eggs"))) => "d3:ham4:eggse"))
     (test-case "read-bencode integers"
-      (check (decode "i0e") => 0))))
+      (check (decode "i0e") => 0)
+      (check (decode "i42e") => 42)
+      (check (decode "i-42e") => -42))))
