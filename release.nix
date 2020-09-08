@@ -6,10 +6,9 @@ let
       (import ./overlay.nix)
     ];
   };
-  gerbil-bencode = pkgs.callPackage ./derivation.nix {};
 in {
   test = pkgs.runCommandNoCC "gerbil-bencode-test" {} ''
     mkdir -p $out
-    : ${pkgs.gerbil-bencode}
+    : ${pkgs.gerbilPackages.gerbil-bencode}
   '';
 }
