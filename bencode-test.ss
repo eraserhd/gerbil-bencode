@@ -17,4 +17,6 @@
       (check (encode []) => "le")
       (check (encode [1 -2 4]) => "li1ei-2ei4ee"))
     (test-case "bencode strings"
-      (check (encode "hello") => "5:hello"))))
+      (check (encode "hello") => "5:hello")
+      (check (encode "Hällö, Würld!") => "16:Hällö, Würld!")
+      (check (encode "Здравей, Свят!") => "25:Здравей, Свят!"))))

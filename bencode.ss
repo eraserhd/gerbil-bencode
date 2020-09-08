@@ -1,4 +1,5 @@
-(import :std/generic)
+(import :std/generic
+        :std/text/utf8)
 (export bencode)
 
 (defgeneric bencode)
@@ -17,6 +18,6 @@
   (display "e"))
 
 (defmethod (bencode (x <string>))
-  (display (string-length x))
+  (display (string-utf8-length x))
   (display ":")
   (display x))
