@@ -1,4 +1,5 @@
-(import :std/test
+(import :std/sugar
+        :std/test
         :std/text/utf8
         "bencode")
 (export bencode-test)
@@ -23,4 +24,6 @@
       (check (encode "Hällö, Würld!") => "16:Hällö, Würld!")
       (check (encode "Здравей, Свят!") => "25:Здравей, Свят!"))
     (test-case "write-bencode bytevectors"
-      (check (encode #u8(65 32 66)) => "3:A B"))))
+      (check (encode #u8(65 32 66)) => "3:A B"))
+    (test-case "write-bencode hash tables"
+      (check (encode (hash)) => "de"))))

@@ -25,3 +25,6 @@
 
 (defmethod (write-bencode (x <string>))
   (write-bencode (string->utf8 x)))
+
+(defmethod (write-bencode (x <hash-table>))
+  (display "de"))
