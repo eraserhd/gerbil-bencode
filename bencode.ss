@@ -1,27 +1,27 @@
 (import :std/generic
         :std/text/utf8
         :gerbil/gambit/bytes)
-(export bencode)
+(export write-bencode)
 
-(defgeneric bencode)
+(defgeneric write-bencode)
 
-(defmethod (bencode (x <integer>))
+(defmethod (write-bencode (x <integer>))
   (display "i")
   (display x)
   (display "e"))
 
-(defmethod (bencode (x <null>))
+(defmethod (write-bencode (x <null>))
   (display "le"))
 
-(defmethod (bencode (x <pair>))
+(defmethod (write-bencode (x <pair>))
   (display "l")
-  (for-each bencode x)
+  (for-each write-bencode x)
   (display "e"))
 
-(defmethod (bencode (x <u8vector>))
+(defmethod (write-bencode (x <u8vector>))
   (display (u8vector-length x))
   (display ":")
   (write-bytes x))
 
-(defmethod (bencode (x <string>))
-  (bencode (string->utf8 x)))
+(defmethod (write-bencode (x <string>))
+  (write-bencode (string->utf8 x)))

@@ -7,7 +7,7 @@
   (utf8->string
     (with-output-to-u8vector
       (lambda ()
-        (bencode x)))))
+        (write-bencode x)))))
 
 (def bencode-test
   (test-suite "test :eraserhd/bencode"
