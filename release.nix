@@ -7,8 +7,17 @@ let
     ];
   };
 in {
-  test = pkgs.runCommandNoCC "gerbil-bencode-test" {} ''
-    mkdir -p $out
-    : ${pkgs.gerbilPackages.gerbil-bencode}
-  '';
+  test = pkgs.stdenv.mkDerivation {
+    name = "gerbil-bencode-tests";
+
+    src = ./.;
+    buildInputs = [ pkgs.gerbil ];
+
+    buildPhase = ''
+      gxi run-tests.ss
+    '';
+    installPhase = ''
+      mkdir -p $out
+    '';
+  };
 }
