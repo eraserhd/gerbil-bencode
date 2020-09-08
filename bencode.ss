@@ -10,3 +10,8 @@
 
 (defmethod (bencode (x <null>))
   (display "le"))
+
+(defmethod (bencode (x <pair>))
+  (display "l")
+  (for-each bencode x)
+  (display "e"))
