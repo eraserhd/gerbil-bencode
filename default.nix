@@ -5,4 +5,4 @@ let
     overlays = [ (import ./overlay.nix) ];
   };
 
-in pkgs.gerbil-bencode
+in pkgs.gerbilPackages.gerbil-bencode

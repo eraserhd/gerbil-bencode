@@ -7,6 +7,8 @@ let
     ];
   };
 in {
+  package = pkgs.gerbilPackages.gerbil-bencode;
+
   test = pkgs.stdenv.mkDerivation {
     name = "gerbil-bencode-tests";
 

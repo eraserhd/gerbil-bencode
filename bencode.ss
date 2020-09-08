@@ -1,4 +1,6 @@
-(export foo)
+(export bencode)
 
-(def (foo x)
-  x)
+(def (bencode x)
+  (display "i")
+  (display x)
+  (display "e"))
