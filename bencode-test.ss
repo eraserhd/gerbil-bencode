@@ -11,16 +11,16 @@
 
 (def bencode-test
   (test-suite "test :eraserhd/bencode"
-    (test-case "bencode integers"
+    (test-case "write-bencode integers"
       (check (encode 0)   => "i0e")
       (check (encode 42)  => "i42e")
       (check (encode -42) => "i-42e"))
-    (test-case "bencode lists"
+    (test-case "write-bencode lists"
       (check (encode []) => "le")
       (check (encode [1 -2 4]) => "li1ei-2ei4ee"))
-    (test-case "bencode utf8 strings"
+    (test-case "write-bencode utf8 strings"
       (check (encode "hello") => "5:hello")
       (check (encode "Hällö, Würld!") => "16:Hällö, Würld!")
       (check (encode "Здравей, Свят!") => "25:Здравей, Свят!"))
-    (test-case "bencode bytevectors"
+    (test-case "write-bencode bytevectors"
       (check (encode #u8(65 32 66)) => "3:A B"))))
