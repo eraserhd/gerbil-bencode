@@ -26,4 +26,5 @@
     (test-case "write-bencode bytevectors"
       (check (encode #u8(65 32 66)) => "3:A B"))
     (test-case "write-bencode hash tables"
-      (check (encode (hash)) => "de"))))
+      (check (encode (hash)) => "de")
+      (check (encode (hash ("ham" "eggs"))) => "d3:ham4:eggse"))))

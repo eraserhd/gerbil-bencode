@@ -27,4 +27,9 @@
   (write-bencode (string->utf8 x)))
 
 (defmethod (write-bencode (x <hash-table>))
-  (display "de"))
+  (display "d")
+  (hash-for-each (lambda (k v)
+                   (write-bencode k)
+                   (write-bencode v))
+                 x)
+  (display "e"))
