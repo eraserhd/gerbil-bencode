@@ -19,6 +19,9 @@
     (test-case "write-bencode lists"
       (check (encode []) => "le")
       (check (encode [1 -2 4]) => "li1ei-2ei4ee"))
+    (test-case "write-bencode vectors"
+      (check (encode #()) => "le")
+      (check (encode #("hello" 42)) => "l5:helloi42ee"))
     (test-case "write-bencode utf8 strings"
       (check (encode "hello") => "5:hello")
       (check (encode "Hällö, Würld!") => "16:Hällö, Würld!")

@@ -18,6 +18,11 @@
   (for-each write-bencode x)
   (display "e"))
 
+(defmethod (write-bencode (x <vector>))
+  (display "l")
+  (vector-for-each write-bencode x)
+  (display "e"))
+
 (defmethod (write-bencode (x <u8vector>))
   (display (u8vector-length x))
   (display ":")
