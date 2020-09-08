@@ -1,6 +1,11 @@
 (export bencode)
 
 (def (bencode x)
-  (display "i")
-  (display x)
-  (display "e"))
+  (cond
+   ((number? x)
+    (display "i")
+    (display x)
+    (display "e"))
+   ((list? x)
+    (display "l")
+    (display "e"))))
