@@ -1,11 +1,13 @@
 (import :std/test
+        :std/text/utf8
         "bencode")
 (export bencode-test)
 
 (def (encode x)
-  (with-output-to-string
-    (lambda ()
-      (bencode x))))
+  (utf8->string
+    (with-output-to-u8vector
+      (lambda ()
+        (bencode x)))))
 
 (def bencode-test
   (test-suite "test :eraserhd/bencode"
@@ -16,7 +18,9 @@
     (test-case "bencode lists"
       (check (encode []) => "le")
       (check (encode [1 -2 4]) => "li1ei-2ei4ee"))
-    (test-case "bencode strings"
+    (test-case "bencode utf8 strings"
       (check (encode "hello") => "5:hello")
       (check (encode "Hällö, Würld!") => "16:Hällö, Würld!")
-      (check (encode "Здравей, Свят!") => "25:Здравей, Свят!"))))
+      (check (encode "Здравей, Свят!") => "25:Здравей, Свят!"))
+    (test-case "bencode bytevectors"
+      (check (encode #u8(65 32 66)) => "3:A B"))))

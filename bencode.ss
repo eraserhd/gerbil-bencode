@@ -1,5 +1,6 @@
 (import :std/generic
-        :std/text/utf8)
+        :std/text/utf8
+        :gerbil/gambit/bytes)
 (export bencode)
 
 (defgeneric bencode)
@@ -17,7 +18,10 @@
   (for-each bencode x)
   (display "e"))
 
-(defmethod (bencode (x <string>))
-  (display (string-utf8-length x))
+(defmethod (bencode (x <u8vector>))
+  (display (u8vector-length x))
   (display ":")
-  (display x))
+  (write-bytes x))
+
+(defmethod (bencode (x <string>))
+  (bencode (string->utf8 x)))
