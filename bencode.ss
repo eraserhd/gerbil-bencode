@@ -1,7 +1,9 @@
 (import :std/generic
         :std/text/utf8
-        :gerbil/gambit/bytes)
-(export write-bencode)
+        :gerbil/gambit/bytes
+        :gerbil/gambit/ports)
+(export write-bencode
+        read-bencode)
 
 (defgeneric write-bencode)
 
@@ -38,3 +40,28 @@
                    (write-bencode v))
                  x)
   (display "e"))
+
+(def (digit-value c)
+  (- (char->integer c)
+     (char->integer #\0)))
+
+(def (read-integer)
+  (let loop ((accum 0)
+             (negative? #f))
+    (let ((c (integer->char (read-u8))))
+      (case c
+        ((#\-)
+         (loop accum #t))
+        ((#\e)
+         (if negative?
+           (- accum)
+           accum))
+        (else
+         (loop (+ (* accum 10) (digit-value c)) negative?))))))
+
+(def (read-bencode)
+  (let ((b (read-u8)))
+    (if (eof-object? b)
+      b
+      (case (integer->char b)
+        ((#\i) (read-integer))))))

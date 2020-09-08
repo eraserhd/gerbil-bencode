@@ -10,6 +10,11 @@
       (lambda ()
         (write-bencode x)))))
 
+(def (decode s)
+  (with-input-from-u8vector (string->utf8 s)
+    (lambda ()
+      (read-bencode))))
+
 (def bencode-test
   (test-suite "test :eraserhd/bencode"
     (test-case "write-bencode integers"
@@ -30,4 +35,6 @@
       (check (encode #u8(65 32 66)) => "3:A B"))
     (test-case "write-bencode hash tables"
       (check (encode (hash)) => "de")
-      (check (encode (hash ("ham" "eggs"))) => "d3:ham4:eggse"))))
+      (check (encode (hash ("ham" "eggs"))) => "d3:ham4:eggse"))
+    (test-case "read-bencode integers"
+      (check (decode "i0e") => 0))))
