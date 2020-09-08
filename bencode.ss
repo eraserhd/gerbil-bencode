@@ -15,3 +15,8 @@
   (display "l")
   (for-each bencode x)
   (display "e"))
+
+(defmethod (bencode (x <string>))
+  (display (string-length x))
+  (display ":")
+  (display x))
