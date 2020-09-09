@@ -13,7 +13,7 @@
 (def (decode s)
   (with-input-from-u8vector (string->utf8 s)
     (lambda ()
-      (read-bencode translate-bytevectors: utf8->string))))
+      (read-bencode translate-u8vectors: utf8->string))))
 
 (def bencode-test
   (test-suite "test :eraserhd/bencode"
@@ -31,7 +31,7 @@
       (check (encode "hello") => "5:hello")
       (check (encode "Hällö, Würld!") => "16:Hällö, Würld!")
       (check (encode "Здравей, Свят!") => "25:Здравей, Свят!"))
-    (test-case "write-bencode bytevectors"
+    (test-case "write-bencode u8vectors"
       (check (encode #u8(65 32 66)) => "3:A B"))
     (test-case "write-bencode hash tables"
       (check (encode (hash)) => "de")

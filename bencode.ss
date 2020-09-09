@@ -46,7 +46,7 @@
   (- (char->integer c)
      (char->integer #\0)))
 
-(def (read-bencode translate-bytevectors: (translate-bytevectors identity))
+(def (read-bencode translate-u8vectors: (translate-u8vectors identity))
   (def (read-rest-of-integer)
     (let loop ((accum 0)
                (negative? #f))
@@ -89,7 +89,7 @@
            (bytes (make-u8vector size)))
       (let loop ((i 0))
         (if (>= i size)
-          (translate-bytevectors bytes)
+          (translate-u8vectors bytes)
           (begin
             (u8vector-set! bytes i (read-u8))
             (loop (+ 1 i)))))))
