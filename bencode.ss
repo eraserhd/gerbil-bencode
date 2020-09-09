@@ -68,11 +68,14 @@
     (with-list-builder (push!)
       (let loop ()
         (let (b (read-u8))
-          (when (eof-object? b)
+          (cond
+           ((eof-object? b)
             (raise-io-error 'read-bencode "unexpected eof in list"))
-          (unless (char=? #\e (integer->char b))
+           ((char=? #\e (integer->char b))
+            (void))
+           (else
             (push! (read-rest-of b))
-            (loop))))))
+            (loop)))))))
   (def (read-rest-of-dictionary)
     (def table (make-hash-table))
     (let loop ((b (read-u8)))
