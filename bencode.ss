@@ -64,11 +64,9 @@
     (with-list-builder (push!)
       (let loop ()
         (let ((b (read-u8)))
-          (if (char=? #\e (integer->char b))
-            #t
-            (begin
-              (push! (read-rest-of b))
-              (loop)))))))
+          (unless (char=? #\e (integer->char b))
+            (push! (read-rest-of b))
+            (loop))))))
   (def (read-rest-of-dictionary)
     (let ((table (make-hash-table)))
       (let loop ((b (read-u8)))
