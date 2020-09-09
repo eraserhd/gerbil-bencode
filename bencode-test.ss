@@ -1,4 +1,5 @@
-(import :std/sugar
+(import :std/error
+        :std/sugar
         :std/test
         :std/text/utf8
         "bencode")
@@ -48,4 +49,5 @@
       (check (decode "d3:ham4:eggse") => (hash ("ham" "eggs"))))
     (test-case "read-bencode bytes"
       (check (decode "0:") => "")
-      (check (decode "5:hello") => "hello"))))
+      (check (decode "5:hello") => "hello")
+      (check (try (decode "5:he") (catch (e) e)) ? io-error?))))

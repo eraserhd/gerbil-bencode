@@ -1,4 +1,5 @@
-(import :std/generic
+(import :std/error
+        :std/generic
         :std/misc/list
         :std/text/utf8
         :gerbil/gambit/bytes
@@ -84,8 +85,10 @@
           (loop (+ (* 10 size) (digit-value c)))))))
   (def (read-rest-of-bytes b)
     (let* ((size (read-rest-of-size-prefix b))
-           (bytes (make-u8vector size)))
-      (read-u8vector bytes)
+           (bytes (make-u8vector size))
+           (bytes-read (read-u8vector bytes)))
+      (when (not (= size bytes-read))
+        (raise-io-error 'read-bencode "unexpected eof in bytes"))
       (translate-u8vectors bytes)))
   (def (read-rest-of b)
     (if (eof-object? b)
