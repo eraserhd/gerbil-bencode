@@ -1,4 +1,5 @@
 (import :std/generic
+        :std/misc/list
         :std/text/utf8
         :gerbil/gambit/bytes
         :gerbil/gambit/ports)
@@ -60,10 +61,18 @@
           (else
            (loop (+ (* accum 10) (digit-value c)) negative?))))))
   (def (read-list)
-    [])
-  (let ((b (read-u8)))
+    (with-list-builder (push!)
+      (let loop ()
+        (let ((b (read-u8)))
+          (if (char=? #\e (integer->char b))
+            (read-u8)
+            (begin
+              (push! (read-rest-of b))
+              (loop)))))))
+  (def (read-rest-of b)
     (if (eof-object? b)
       b
       (case (integer->char b)
         ((#\i) (read-integer))
-        ((#\l) (read-list))))))
+        ((#\l) (read-list)))))
+  (read-rest-of (read-u8)))
