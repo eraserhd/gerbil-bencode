@@ -46,4 +46,5 @@
     (test-case "read-bencode dictionaries"
       (check (decode "de") => (hash)))
     (test-case "read-bencode bytes"
-      (check (decode "0:") => #u8()))))
+      (check (decode "0:") => #u8())
+      (check (utf8->string (decode "5:hello")) => "hello"))))

@@ -82,7 +82,12 @@
   (def (read-rest-of-bytes b)
     (let* ((size (read-rest-of-size-prefix b))
            (bytes (make-u8vector size)))
-      bytes))
+      (let loop ((i 0))
+        (if (>= i size)
+          bytes
+          (begin
+            (u8vector-set! bytes i (read-u8))
+            (loop (+ 1 i)))))))
   (def (read-rest-of b)
     (if (eof-object? b)
       b
