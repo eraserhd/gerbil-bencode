@@ -86,10 +86,13 @@
             (loop (read-u8)))))))
   (def (read-rest-of-size-prefix b)
     (let loop ((size (digit-value (integer->char b))))
-      (let ((c (integer->char (read-u8))))
-        (if (char=? #\: c)
-          size
-          (loop (+ (* 10 size) (digit-value c)))))))
+      (let (b (read-u8))
+        (when (eof-object? b)
+          (raise-io-error 'read-bencode "unexpected eof in byte size prefix"))
+        (let (c (integer->char b))
+          (if (char=? #\: c)
+            size
+            (loop (+ (* 10 size) (digit-value c))))))))
   (def (read-rest-of-bytes b)
     (let* ((size (read-rest-of-size-prefix b))
            (bytes (make-u8vector size))
