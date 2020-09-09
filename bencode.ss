@@ -45,23 +45,25 @@
   (- (char->integer c)
      (char->integer #\0)))
 
-(def (read-integer)
-  (let loop ((accum 0)
-             (negative? #f))
-    (let ((c (integer->char (read-u8))))
-      (case c
-        ((#\-)
-         (loop accum #t))
-        ((#\e)
-         (if negative?
-           (- accum)
-           accum))
-        (else
-         (loop (+ (* accum 10) (digit-value c)) negative?))))))
-
 (def (read-bencode)
+  (def (read-integer)
+    (let loop ((accum 0)
+               (negative? #f))
+      (let ((c (integer->char (read-u8))))
+        (case c
+          ((#\-)
+           (loop accum #t))
+          ((#\e)
+           (if negative?
+             (- accum)
+             accum))
+          (else
+           (loop (+ (* accum 10) (digit-value c)) negative?))))))
+  (def (read-list)
+    [])
   (let ((b (read-u8)))
     (if (eof-object? b)
       b
       (case (integer->char b)
-        ((#\i) (read-integer))))))
+        ((#\i) (read-integer))
+        ((#\l) (read-list))))))
