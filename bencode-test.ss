@@ -44,4 +44,6 @@
       (check (decode "le") => [])
       (check (decode "li1ei-2ei4ee") => [1 -2 4]))
     (test-case "read-bencode dictionaries"
-      (check (decode "de") => (hash)))))
+      (check (decode "de") => (hash)))
+    (test-case "read-bencode bytes"
+      (check (decode "0:") => #u8()))))
