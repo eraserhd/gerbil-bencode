@@ -76,14 +76,16 @@
   (def (read-rest-of-dictionary)
     (def table (make-hash-table))
     (let loop ((b (read-u8)))
-      (when (eof-object? b)
+      (cond
+       ((eof-object? b)
         (raise-io-error 'read-bencode "unexpected eof in dictionary"))
-      (if (char=? #\e (integer->char b))
-        table
+       ((char=? #\e (integer->char b))
+        table)
+       (else
         (let ((key (read-rest-of b))
               (value (read-rest-of (read-u8))))
           (hash-put! table key value)
-          (loop (read-u8))))))
+          (loop (read-u8)))))))
   (def (read-rest-of-size-prefix b)
     (let loop ((size (digit-value (integer->char b))))
       (let (b (read-u8))
