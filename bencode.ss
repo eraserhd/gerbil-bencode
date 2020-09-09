@@ -65,7 +65,7 @@
       (let loop ()
         (let ((b (read-u8)))
           (if (char=? #\e (integer->char b))
-            (read-u8)
+            #t
             (begin
               (push! (read-rest-of b))
               (loop)))))))
