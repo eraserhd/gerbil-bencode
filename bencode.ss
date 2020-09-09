@@ -46,7 +46,7 @@
   (- (char->integer c)
      (char->integer #\0)))
 
-(def (read-bencode)
+(def (read-bencode translate-bytevectors: (translate-bytevectors identity))
   (def (read-rest-of-integer)
     (let loop ((accum 0)
                (negative? #f))
@@ -71,8 +71,13 @@
               (loop)))))))
   (def (read-rest-of-dictionary)
     (let ((table (make-hash-table)))
-      (read-u8)
-      table))
+      (let loop ((b (read-u8)))
+        (if (char=? #\e (integer->char b))
+          table
+          (let ((key (read-rest-of b))
+                (value (read-rest-of (read-u8))))
+            (hash-put! table key value)
+            (loop (read-u8)))))))
   (def (read-rest-of-size-prefix b)
     (let loop ((size (digit-value (integer->char b))))
       (let ((c (integer->char (read-u8))))
@@ -84,7 +89,7 @@
            (bytes (make-u8vector size)))
       (let loop ((i 0))
         (if (>= i size)
-          bytes
+          (translate-bytevectors bytes)
           (begin
             (u8vector-set! bytes i (read-u8))
             (loop (+ 1 i)))))))
