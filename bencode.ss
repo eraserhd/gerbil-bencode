@@ -69,10 +69,15 @@
             (begin
               (push! (read-rest-of b))
               (loop)))))))
+  (def (read-dictionary)
+    (let ((table (make-hash-table)))
+      (read-u8)
+      table))
   (def (read-rest-of b)
     (if (eof-object? b)
       b
       (case (integer->char b)
         ((#\i) (read-integer))
-        ((#\l) (read-list)))))
+        ((#\l) (read-list))
+        ((#\d) (read-dictionary)))))
   (read-rest-of (read-u8)))
