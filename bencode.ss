@@ -47,7 +47,7 @@
      (char->integer #\0)))
 
 (def (read-bencode)
-  (def (read-integer)
+  (def (read-rest-of-integer)
     (let loop ((accum 0)
                (negative? #f))
       (let ((c (integer->char (read-u8))))
@@ -60,7 +60,7 @@
              accum))
           (else
            (loop (+ (* accum 10) (digit-value c)) negative?))))))
-  (def (read-list)
+  (def (read-rest-of-list)
     (with-list-builder (push!)
       (let loop ()
         (let ((b (read-u8)))
@@ -69,7 +69,7 @@
             (begin
               (push! (read-rest-of b))
               (loop)))))))
-  (def (read-dictionary)
+  (def (read-rest-of-dictionary)
     (let ((table (make-hash-table)))
       (read-u8)
       table))
@@ -77,7 +77,7 @@
     (if (eof-object? b)
       b
       (case (integer->char b)
-        ((#\i) (read-integer))
-        ((#\l) (read-list))
-        ((#\d) (read-dictionary)))))
+        ((#\i) (read-rest-of-integer))
+        ((#\l) (read-rest-of-list))
+        ((#\d) (read-rest-of-dictionary)))))
   (read-rest-of (read-u8)))
