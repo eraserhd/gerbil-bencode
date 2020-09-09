@@ -50,4 +50,5 @@
     (test-case "read-bencode bytes"
       (check (decode "0:") => "")
       (check (decode "5:hello") => "hello")
-      (check (try (decode "5:he") (catch (e) e)) ? io-error?))))
+      (check (try (decode "5:he") (catch (e) e)) ? io-error?)
+      (check (try (decode "5:") (catch (e) e)) ? io-error?))))
