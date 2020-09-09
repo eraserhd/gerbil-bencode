@@ -49,7 +49,9 @@
       (check (try (decode "li42e") (catch (e) e)) ? io-error?))
     (test-case "read-bencode dictionaries"
       (check (decode "de") => (hash))
-      (check (decode "d3:ham4:eggse") => (hash ("ham" "eggs"))))
+      (check (decode "d3:ham4:eggse") => (hash ("ham" "eggs")))
+      (check (try (decode "d") (catch (e) e)) ? io-error?)
+      (check (try (decode "d3:ham") (catch (e) e)) ? io-error?))
     (test-case "read-bencode bytes"
       (check (decode "0:") => "")
       (check (decode "5:hello") => "hello")

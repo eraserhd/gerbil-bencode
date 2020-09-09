@@ -76,6 +76,8 @@
   (def (read-rest-of-dictionary)
     (let ((table (make-hash-table)))
       (let loop ((b (read-u8)))
+        (when (eof-object? b)
+          (raise-io-error 'read-bencode "unexpected eof in dictionary"))
         (if (char=? #\e (integer->char b))
           table
           (let ((key (read-rest-of b))
