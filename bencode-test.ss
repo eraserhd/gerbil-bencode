@@ -40,7 +40,8 @@
     (test-case "read-bencode integers"
       (check (decode "i0e") => 0)
       (check (decode "i42e") => 42)
-      (check (decode "i-42e") => -42))
+      (check (decode "i-42e") => -42)
+      (check (try (decode "i-42") (catch (e) e)) ? io-error?))
     (test-case "read-bencode lists"
       (check (decode "le") => [])
       (check (decode "li1ei-2ei4ee") => [1 -2 4]))

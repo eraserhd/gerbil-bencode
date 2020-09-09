@@ -51,16 +51,19 @@
   (def (read-rest-of-integer)
     (let loop ((accum 0)
                (negative? #f))
-      (let ((c (integer->char (read-u8))))
-        (case c
-          ((#\-)
-           (loop accum #t))
-          ((#\e)
-           (if negative?
-             (- accum)
-             accum))
-          (else
-           (loop (+ (* accum 10) (digit-value c)) negative?))))))
+      (let (b (read-u8))
+        (when (eof-object? b)
+          (raise-io-error 'read-bencode "unexpected eof in integer"))
+        (let (c (integer->char b))
+          (case c
+            ((#\-)
+             (loop accum #t))
+            ((#\e)
+             (if negative?
+               (- accum)
+               accum))
+            (else
+             (loop (+ (* accum 10) (digit-value c)) negative?)))))))
   (def (read-rest-of-list)
     (with-list-builder (push!)
       (let loop ()
