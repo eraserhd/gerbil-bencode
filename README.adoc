@@ -1,1 +1,46 @@
-= gerbil-bencode
+gerbil-bencode
+==============
+
+A bencode library for Gerbil Scheme.
+
+read-bencode
+------------
+
+....
+(read-bencode [translate-u8vectors: identity])
+
+  translate-u8vectors := a function for processing bencode byte strings
+....
+
+.Examples
+[source,scheme]
+----
+> (import :std/text/utf8 :eraserhd/bencode)
+> (with-input-from-u8vector (string->utf8 "d3:ham4:eggse")
+    (lambda ()
+      (read-bencode translate-u8vectors: utf8->string)))
+#<table #11>
+> (hash-ref #11 "ham")
+"eggs"
+----
+
+
+write-bencode
+-------------
+
+....
+(write-bencode x)
+
+  x := a bencodable value
+....
+
+Encodes `x` and writes it to the current output port, which must be binary if
+any bytes or strings are to be written.
+
+.Examples
+[source,scheme]
+----
+> (import :std/sugar "bencode")
+> (write-bencode (hash ("key" [1 2 3])))
+d3:keyli1ei2ei3eee
+----
