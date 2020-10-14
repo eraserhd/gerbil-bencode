@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
 
   meta = with stdenv.lib; {
     description = "bencode library for Gerbil Scheme";
-    homepage = https://github.com/eraserhd/gerbil-bencode;
+    homepage = "https://github.com/eraserhd/gerbil-bencode";
     license = licenses.publicDomain;
     platforms = platforms.all;
     maintainers = [ maintainers.eraserhd ];
