@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, gerbil, gambit, ... }:
+{ stdenv, lib, fetchFromGitHub, gerbil, gambit, ... }:
 
 stdenv.mkDerivation rec {
   pname = "gerbil-bencode";
@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
     GERBIL_PATH=$out gxi build.ss
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "bencode library for Gerbil Scheme";
     homepage = "https://github.com/eraserhd/gerbil-bencode";
     license = licenses.publicDomain;
